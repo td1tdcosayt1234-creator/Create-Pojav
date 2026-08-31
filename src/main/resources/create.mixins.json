@@ -68,7 +68,14 @@
     "compat.xaeros.XaeroPauseScreenOverrideMixin",
     "client.pojav.RenderTargetPojavMixin",
     "client.pojav.GlStateManagerPojavMixin",
-    "client.pojav.PostChainCompatMixin"
+    "client.pojav.PostChainCompatMixin",
+    "client.pojav.FlywheelBackendMixin",
+    "client.pojav.ShaderInstancePojavMixin",
+    "client.pojav.ContraptionRendererPojavMixin",
+    "client.pojav.VanillaVisualsPojavMixin",
+    "client.pojav.PonderUIPojavMixin",
+    "client.pojav.SuperByteBufferPojavMixin",
+    "client.pojav.RenderTypePojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1
