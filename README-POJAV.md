@@ -43,6 +43,51 @@ This is a modified version of the Create mod (1.20.1) that fixes **ALL known cra
 
 **Fix:** `PostChainCompatMixin` skips incompatible post-processing.
 
+### 8. Train Infinite Position (NaN) Crash
+**Error:** Train crashes with NaN coordinates
+
+**Fix:** `EntityPojavMixin` catches and fixes NaN/Infinity positions.
+
+### 9. Contraption Assembly Crash
+**Error:** Light engine crashes during contraption assembly
+
+**Fix:** `LightEnginePojavMixin` handles light engine errors.
+
+### 10. NBT Data Crash
+**Error:** Invalid NBT data with NaN values
+
+**Fix:** `NbtCompoundPojavMixin` fixes NaN/Infinity values in saved data.
+
+### 11. Blend State Crash
+**Error:** GL blend operations failing on mobile
+
+**Fix:** `GlBlendStatePojavMixin` simplifies blend modes.
+
+### 12. Depth Buffer Crash
+**Error:** Depth buffer issues on mobile GPUs
+
+**Fix:** `GlDepthStatePojavMixin` simplifies depth operations.
+
+### 13. Texture Loading Crash
+**Error:** Texture binding failures
+
+**Fix:** `TextureManagerPojavMixin` catches texture errors.
+
+### 14. Level Rendering Crash
+**Error:** World rendering failures
+
+**Fix:** `LevelRendererPojavMixin` handles rendering errors.
+
+### 15. Block Entity Rendering Crash
+**Error:** Block entity render failures
+
+**Fix:** `BlockEntityRendererPojavMixin` catches render errors.
+
+### 16. Entity Rendering Crash
+**Error:** Entity render failures
+
+**Fix:** `EntityRendererPojavMixin` catches render errors.
+
 ## All New Files
 
 ```
@@ -59,7 +104,16 @@ src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
 ├── PonderUIPojavMixin.java       # Ponder fix
 ├── SuperByteBufferPojavMixin.java # Buffer fix
 ├── RenderTypePojavMixin.java     # RenderType fallback
-└── PostChainCompatMixin.java     # Post-processing fix
+├── PostChainCompatMixin.java     # Post-processing fix
+├── EntityPojavMixin.java         # Entity position fix
+├── LightEnginePojavMixin.java    # Light engine fix
+├── NbtCompoundPojavMixin.java    # NBT data fix
+├── GlBlendStatePojavMixin.java   # Blend state fix
+├── GlDepthStatePojavMixin.java   # Depth buffer fix
+├── TextureManagerPojavMixin.java # Texture loading fix
+├── LevelRendererPojavMixin.java  # Level rendering fix
+├── BlockEntityRendererPojavMixin.java # Block entity fix
+└── EntityRendererPojavMixin.java # Entity rendering fix
 ```
 
 ## Building

@@ -43,7 +43,8 @@
     "accessor.StateHolderAccessor",
     "accessor.SuspiciousStewItemAccessor",
     "accessor.SystemReportAccessor",
-    "accessor.UseOnContextAccessor"
+    "accessor.UseOnContextAccessor",
+    "client.pojav.EntityPojavMixin"
   ],
   "client": [
     "accessor.AgeableListModelAccessor",
@@ -75,7 +76,16 @@
     "client.pojav.VanillaVisualsPojavMixin",
     "client.pojav.PonderUIPojavMixin",
     "client.pojav.SuperByteBufferPojavMixin",
-    "client.pojav.RenderTypePojavMixin"
+    "client.pojav.RenderTypePojavMixin",
+    "client.pojav.EntityPojavMixin",
+    "client.pojav.LightEnginePojavMixin",
+    "client.pojav.NbtCompoundPojavMixin",
+    "client.pojav.GlBlendStatePojavMixin",
+    "client.pojav.GlDepthStatePojavMixin",
+    "client.pojav.TextureManagerPojavMixin",
+    "client.pojav.LevelRendererPojavMixin",
+    "client.pojav.BlockEntityRendererPojavMixin",
+    "client.pojav.EntityRendererPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1
