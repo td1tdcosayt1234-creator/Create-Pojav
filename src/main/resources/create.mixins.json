@@ -93,7 +93,16 @@
     "client.pojav.CompoundTagSizePojavMixin",
     "client.pojav.EntityTypePojavMixin",
     "client.pojav.BlocksPojavMixin",
-    "client.pojav.ClientLevelPojavMixin"
+    "client.pojav.ClientLevelPojavMixin",
+    "client.pojav.GlErrorPojavMixin",
+    "client.pojav.RenderTypeSetupPojavMixin",
+    "client.pojav.MultiBufferSourcePojavMixin",
+    "client.pojav.BufferBuilderPojavMixin",
+    "client.pojav.EntityRenderDispatcherPojavMixin",
+    "client.pojav.LevelChunkRendererPojavMixin",
+    "client.pojav.EntityRemovalPojavMixin",
+    "client.pojav.BlockEntityRenderDispatcherPojavMixin",
+    "client.pojav.SpriteContentsPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1

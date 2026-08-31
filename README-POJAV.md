@@ -133,41 +133,95 @@ This is a modified version of the Create mod (1.20.1) that fixes **ALL known cra
 
 **Fix:** `ClientLevelPojavMixin` catches level errors.
 
+### 26. GL Error Crash
+**Error:** GL_OUT_OF_MEMORY, GL_INVALID_OPERATION errors
+
+**Fix:** `GlErrorPojavMixin` monitors GL errors and handles OOM.
+
+### 27. RenderType Setup Crash
+**Error:** RenderType creation failures
+
+**Fix:** `RenderTypeSetupPojavMixin` catches render type errors.
+
+### 28. MultiBufferSource Crash
+**Error:** Buffer source errors during rendering
+
+**Fix:** `MultiBufferSourcePojavMixin` catches buffer source errors.
+
+### 29. BufferBuilder Crash
+**Error:** Buffer builder end/discard errors
+
+**Fix:** `BufferBuilderPojavMixin` catches buffer builder errors.
+
+### 30. EntityRenderDispatcher Crash
+**Error:** Entity render dispatch failures
+
+**Fix:** `EntityRenderDispatcherPojavMixin` catches dispatch errors.
+
+### 31. LevelChunkRenderer Crash
+**Error:** Chunk rendering failures
+
+**Fix:** `LevelChunkRendererPojavMixin` catches chunk render errors.
+
+### 32. Entity Removal Crash
+**Error:** Contraption entity removal errors
+
+**Fix:** `EntityRemovalPojavMixin` catches entity removal errors.
+
+### 33. BlockEntityRenderDispatcher Crash
+**Error:** Block entity render dispatch failures
+
+**Fix:** `BlockEntityRenderDispatcherPojavMixin` catches dispatch errors.
+
+### 34. SpriteContents Crash
+**Error:** Sprite/texture upload errors
+
+**Fix:** `SpriteContentsPojavMixin` catches sprite upload errors.
+
 ## All New Files
 
 ```
 src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
-├── PojavCompat.java              # Device detection
-├── PojavCompatManager.java       # Configuration manager
-├── PojavCompatConfig.java        # Config options
-├── RenderTargetPojavMixin.java   # Stencil buffer fix
-├── GlStateManagerPojavMixin.java # GL state fix
-├── FlywheelBackendMixin.java     # Flywheel disable
-├── ShaderInstancePojavMixin.java # Shader fallback
+├── PojavCompat.java                  # Device detection
+├── PojavCompatManager.java           # Configuration manager
+├── PojavCompatConfig.java            # Config options
+├── RenderTargetPojavMixin.java       # Stencil buffer fix
+├── GlStateManagerPojavMixin.java     # GL state fix
+├── FlywheelBackendMixin.java         # Flywheel disable
+├── ShaderInstancePojavMixin.java     # Shader fallback
 ├── ContraptionRendererPojavMixin.java # Contraption fix
-├── VanillaVisualsPojavMixin.java # Visualization fix
-├── PonderUIPojavMixin.java       # Ponder fix
-├── SuperByteBufferPojavMixin.java # Buffer fix
-├── RenderTypePojavMixin.java     # RenderType fallback
-├── PostChainCompatMixin.java     # Post-processing fix
-├── EntityPojavMixin.java         # Entity position fix
-├── LightEnginePojavMixin.java    # Light engine fix
-├── NbtCompoundPojavMixin.java    # NBT data fix
-├── GlBlendStatePojavMixin.java   # Blend state fix
-├── GlDepthStatePojavMixin.java   # Depth buffer fix
-├── TextureManagerPojavMixin.java # Texture loading fix
-├── LevelRendererPojavMixin.java  # Level rendering fix
+├── VanillaVisualsPojavMixin.java     # Visualization fix
+├── PonderUIPojavMixin.java           # Ponder fix
+├── SuperByteBufferPojavMixin.java    # Buffer fix
+├── RenderTypePojavMixin.java         # RenderType fallback
+├── PostChainCompatMixin.java         # Post-processing fix
+├── EntityPojavMixin.java             # Entity position fix
+├── LightEnginePojavMixin.java        # Light engine fix
+├── NbtCompoundPojavMixin.java        # NBT data fix
+├── GlBlendStatePojavMixin.java       # Blend state fix
+├── GlDepthStatePojavMixin.java       # Depth buffer fix
+├── TextureManagerPojavMixin.java     # Texture loading fix
+├── LevelRendererPojavMixin.java      # Level rendering fix
 ├── BlockEntityRendererPojavMixin.java # Block entity fix
-├── EntityRendererPojavMixin.java # Entity rendering fix
-├── GameRendererPojavMixin.java   # Game renderer fix
-├── ListTagPojavMixin.java        # ConcurrentModification fix
-├── MinecraftPojavMixin.java      # Minecraft startup fix
-├── RenderBuffersPojavMixin.java  # Buffer OOM fix
-├── LevelStoragePojavMixin.java   # World save/load fix
-├── CompoundTagSizePojavMixin.java # NBT overflow fix
-├── EntityTypePojavMixin.java     # Entity spawn fix
-├── BlocksPojavMixin.java         # Block registration fix
-└── ClientLevelPojavMixin.java    # Client level fix
+├── EntityRendererPojavMixin.java     # Entity rendering fix
+├── GameRendererPojavMixin.java       # Game renderer fix
+├── ListTagPojavMixin.java            # ConcurrentModification fix
+├── MinecraftPojavMixin.java          # Minecraft startup fix
+├── RenderBuffersPojavMixin.java      # Buffer OOM fix
+├── LevelStoragePojavMixin.java       # World save/load fix
+├── CompoundTagSizePojavMixin.java    # NBT overflow fix
+├── EntityTypePojavMixin.java         # Entity spawn fix
+├── BlocksPojavMixin.java             # Block registration fix
+├── ClientLevelPojavMixin.java        # Client level fix
+├── GlErrorPojavMixin.java            # GL error monitoring
+├── RenderTypeSetupPojavMixin.java    # RenderType creation fix
+├── MultiBufferSourcePojavMixin.java  # Buffer source fix
+├── BufferBuilderPojavMixin.java      # Buffer builder fix
+├── EntityRenderDispatcherPojavMixin.java # Entity dispatch fix
+├── LevelChunkRendererPojavMixin.java # Chunk render fix
+├── EntityRemovalPojavMixin.java      # Entity removal fix
+├── BlockEntityRenderDispatcherPojavMixin.java # Block dispatch fix
+└── SpriteContentsPojavMixin.java     # Sprite upload fix
 ```
 
 ## Building
