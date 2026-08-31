@@ -120,7 +120,24 @@
     "client.pojav.BlockEntityTypePojavMixin",
     "client.pojav.BlocksStatePojavMixin",
     "client.pojav.ChunkAccessPojavMixin",
-    "client.pojav.LevelChunkSectionPojavMixin"
+    "client.pojav.LevelChunkSectionPojavMixin",
+    "client.pojav.FluidHandlerPojavMixin",
+    "client.pojav.KineticBlockEntityPojavMixin",
+    "client.pojav.DeployerPojavMixin",
+    "client.pojav.CrusherPojavMixin",
+    "client.pojav.BearingPojavMixin",
+    "client.pojav.ContraptionPojavMixin",
+    "client.pojav.BeltPojavMixin",
+    "client.pojav.RedstonePojavMixin",
+    "client.pojav.CreativePojavMixin",
+    "client.pojav.GearboxPojavMixin",
+    "client.pojav.EncasedShaftPojavMixin",
+    "client.pojav.FluidTankPojavMixin",
+    "client.pojav.PipePojavMixin",
+    "client.pojav.PumpPojavMixin",
+    "client.pojav.MixerPojavMixin",
+    "client.pojav.SawPojavMixin",
+    "client.pojav.DrillPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1

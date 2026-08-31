@@ -268,6 +268,91 @@ This is a modified version of the Create mod (1.20.1) that fixes **ALL known cra
 
 **Fix:** `LevelChunkSectionPojavMixin` catches chunk section getBlockState/setBlockState errors.
 
+### 53. FluidHandler Crash
+**Error:** Fluid tank/pipe/pump errors
+
+**Fix:** `FluidHandlerPojavMixin` catches fluid handler errors.
+
+### 54. KineticBlockEntity Crash
+**Error:** Kinetic block entity errors (gearbox, clutch, shaft)
+
+**Fix:** `KineticBlockEntityPojavMixin` catches kinetic block entity errors.
+
+### 55. Deployer Crash
+**Error:** Deployer/arm interaction errors
+
+**Fix:** `DeployerPojavMixin` catches deployer errors.
+
+### 56. Crusher Crash
+**Error:** Crushing wheel/millstone/press errors
+
+**Fix:** `CrusherPojavMixin` catches crusher errors.
+
+### 57. Bearing Crash
+**Error:** Mechanical bearing/harvester errors
+
+**Fix:** `BearingPojavMixin` catches bearing errors.
+
+### 58. Contraption Crash
+**Error:** Contraption assembly/disassembly errors
+
+**Fix:** `ContraptionPojavMixin` catches contraption errors.
+
+### 59. Belt Crash
+**Error:** Mechanical belt errors
+
+**Fix:** `BeltPojavMixin` catches belt errors.
+
+### 60. Redstone Crash
+**Error:** Redstone signal processing errors
+
+**Fix:** `RedstonePojavMixin` catches redstone errors.
+
+### 61. Creative Crash
+**Error:** Creative motor/virtual motor errors
+
+**Fix:** `CreativePojavMixin` catches creative errors.
+
+### 62. Gearbox Crash
+**Error:** Gearbox/clutch/gearshift errors
+
+**Fix:** `GearboxPojavMixin` catches gearbox errors.
+
+### 63. EncasedShaft Crash
+**Error:** Encased shaft errors
+
+**Fix:** `EncasedShaftPojavMixin` catches encased shaft errors.
+
+### 64. FluidTank Crash
+**Error:** Fluid tank errors
+
+**Fix:** `FluidTankPojavMixin` catches fluid tank errors.
+
+### 65. Pipe Crash
+**Error:** Fluid pipe errors
+
+**Fix:** `PipePojavMixin` catches pipe errors.
+
+### 66. Pump Crash
+**Error:** Mechanical pump errors
+
+**Fix:** `PumpPojavMixin` catches pump errors.
+
+### 67. Mixer Crash
+**Error:** Mechanical mixer errors
+
+**Fix:** `MixerPojavMixin` catches mixer errors.
+
+### 68. Saw Crash
+**Error:** Mechanical saw errors
+
+**Fix:** `SawPojavMixin` catches saw errors.
+
+### 69. Drill Crash
+**Error:** Mechanical drill errors
+
+**Fix:** `DrillPojavMixin` catches drill errors.
+
 ## All New Files
 
 ```
@@ -329,7 +414,24 @@ src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
 ├── BlockEntityTypePojavMixin.java        # Block entity type fix
 ├── BlocksStatePojavMixin.java            # Block state fix
 ├── ChunkAccessPojavMixin.java            # Chunk access fix
-└── LevelChunkSectionPojavMixin.java      # Chunk section fix
+├── LevelChunkSectionPojavMixin.java      # Chunk section fix
+├── FluidHandlerPojavMixin.java           # Fluid handler fix
+├── KineticBlockEntityPojavMixin.java     # Kinetic block entity fix
+├── DeployerPojavMixin.java               # Deployer fix
+├── CrusherPojavMixin.java                # Crusher fix
+├── BearingPojavMixin.java                # Bearing fix
+├── ContraptionPojavMixin.java            # Contraption fix
+├── BeltPojavMixin.java                   # Belt fix
+├── RedstonePojavMixin.java               # Redstone fix
+├── CreativePojavMixin.java               # Creative motor fix
+├── GearboxPojavMixin.java                # Gearbox fix
+├── EncasedShaftPojavMixin.java           # Encased shaft fix
+├── FluidTankPojavMixin.java              # Fluid tank fix
+├── PipePojavMixin.java                   # Pipe fix
+├── PumpPojavMixin.java                   # Pump fix
+├── MixerPojavMixin.java                  # Mixer fix
+├── SawPojavMixin.java                    # Saw fix
+└── DrillPojavMixin.java                  # Drill fix
 ```
 
 ## Building
