@@ -102,7 +102,16 @@
     "client.pojav.LevelChunkRendererPojavMixin",
     "client.pojav.EntityRemovalPojavMixin",
     "client.pojav.BlockEntityRenderDispatcherPojavMixin",
-    "client.pojav.SpriteContentsPojavMixin"
+    "client.pojav.SpriteContentsPojavMixin",
+    "client.pojav.VirtualRenderWorldPojavMixin",
+    "client.pojav.Vec3PojavMixin",
+    "client.pojav.BlockEntityPojavMixin",
+    "client.pojav.LevelChunkPojavMixin",
+    "client.pojav.BlockStatePojavMixin",
+    "client.pojav.EntityGetterPojavMixin",
+    "client.pojav.PathFinderPojavMixin",
+    "client.pojav.SectionRenderDispatcherPojavMixin",
+    "client.pojav.LevelSpecialRendererPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1
