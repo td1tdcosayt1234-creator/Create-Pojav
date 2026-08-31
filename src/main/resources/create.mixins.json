@@ -43,8 +43,7 @@
     "accessor.StateHolderAccessor",
     "accessor.SuspiciousStewItemAccessor",
     "accessor.SystemReportAccessor",
-    "accessor.UseOnContextAccessor",
-    "client.pojav.EntityPojavMixin"
+    "accessor.UseOnContextAccessor"
   ],
   "client": [
     "accessor.AgeableListModelAccessor",
@@ -85,7 +84,16 @@
     "client.pojav.TextureManagerPojavMixin",
     "client.pojav.LevelRendererPojavMixin",
     "client.pojav.BlockEntityRendererPojavMixin",
-    "client.pojav.EntityRendererPojavMixin"
+    "client.pojav.EntityRendererPojavMixin",
+    "client.pojav.GameRendererPojavMixin",
+    "client.pojav.ListTagPojavMixin",
+    "client.pojav.MinecraftPojavMixin",
+    "client.pojav.RenderBuffersPojavMixin",
+    "client.pojav.LevelStoragePojavMixin",
+    "client.pojav.CompoundTagSizePojavMixin",
+    "client.pojav.EntityTypePojavMixin",
+    "client.pojav.BlocksPojavMixin",
+    "client.pojav.ClientLevelPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1

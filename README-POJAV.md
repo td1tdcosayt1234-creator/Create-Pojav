@@ -88,6 +88,51 @@ This is a modified version of the Create mod (1.20.1) that fixes **ALL known cra
 
 **Fix:** `EntityRendererPojavMixin` catches render errors.
 
+### 17. Game Renderer Crash
+**Error:** Memory pressure and rendering pipeline errors
+
+**Fix:** `GameRendererPojavMixin` monitors memory and triggers GC.
+
+### 18. ConcurrentModificationException
+**Error:** Thread safety issues in NBT lists
+
+**Fix:** `ListTagPojavMixin` catches concurrent modification errors.
+
+### 19. Minecraft Startup Crash
+**Error:** Startup crashes and memory issues
+
+**Fix:** `MinecraftPojavMixin` monitors startup and memory.
+
+### 20. Render Buffer OOM
+**Error:** Out of memory during buffer allocation
+
+**Fix:** `RenderBuffersPojavMixin` checks memory before allocation.
+
+### 21. World Save/Load Crash
+**Error:** World storage errors
+
+**Fix:** `LevelStoragePojavMixin` handles storage errors.
+
+### 22. Contraption Data Corruption
+**Error:** Stack overflow in NBT size calculation
+
+**Fix:** `CompoundTagSizePojavMixin` catches overflow errors.
+
+### 23. Entity Spawning Crash
+**Error:** Entity spawn failures
+
+**Fix:** `EntityTypePojavMixin` catches spawn errors.
+
+### 24. Block Registration Crash
+**Error:** Block initialization failures
+
+**Fix:** `BlocksPojavMixin` catches init errors.
+
+### 25. Client Level Crash
+**Error:** World loading/rendering errors
+
+**Fix:** `ClientLevelPojavMixin` catches level errors.
+
 ## All New Files
 
 ```
@@ -113,7 +158,16 @@ src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
 ├── TextureManagerPojavMixin.java # Texture loading fix
 ├── LevelRendererPojavMixin.java  # Level rendering fix
 ├── BlockEntityRendererPojavMixin.java # Block entity fix
-└── EntityRendererPojavMixin.java # Entity rendering fix
+├── EntityRendererPojavMixin.java # Entity rendering fix
+├── GameRendererPojavMixin.java   # Game renderer fix
+├── ListTagPojavMixin.java        # ConcurrentModification fix
+├── MinecraftPojavMixin.java      # Minecraft startup fix
+├── RenderBuffersPojavMixin.java  # Buffer OOM fix
+├── LevelStoragePojavMixin.java   # World save/load fix
+├── CompoundTagSizePojavMixin.java # NBT overflow fix
+├── EntityTypePojavMixin.java     # Entity spawn fix
+├── BlocksPojavMixin.java         # Block registration fix
+└── ClientLevelPojavMixin.java    # Client level fix
 ```
 
 ## Building
