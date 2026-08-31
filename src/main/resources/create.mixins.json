@@ -111,7 +111,16 @@
     "client.pojav.EntityGetterPojavMixin",
     "client.pojav.PathFinderPojavMixin",
     "client.pojav.SectionRenderDispatcherPojavMixin",
-    "client.pojav.LevelSpecialRendererPojavMixin"
+    "client.pojav.LevelSpecialRendererPojavMixin",
+    "client.pojav.SchematicannonPojavMixin",
+    "client.pojav.Vec3OperationsPojavMixin",
+    "client.pojav.StressImpactPojavMixin",
+    "client.pojav.RotationHandlerPojavMixin",
+    "client.pojav.PathComputationPojavMixin",
+    "client.pojav.BlockEntityTypePojavMixin",
+    "client.pojav.BlocksStatePojavMixin",
+    "client.pojav.ChunkAccessPojavMixin",
+    "client.pojav.LevelChunkSectionPojavMixin"
   ],
   "injectors": {
     "defaultRequire": 1

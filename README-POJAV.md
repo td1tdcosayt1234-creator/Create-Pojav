@@ -223,6 +223,51 @@ This is a modified version of the Create mod (1.20.1) that fixes **ALL known cra
 
 **Fix:** `LevelSpecialRendererPojavMixin` catches special render errors.
 
+### 44. Schematicannon Crash
+**Error:** `IllegalArgumentException: No enum constant` when schematicannon contains itself
+
+**Fix:** `SchematicannonPojavMixin` fixes invalid NBT state data.
+
+### 45. Vec3 Operations Crash
+**Error:** NaN/Infinity in Vec3 calculations
+
+**Fix:** `Vec3OperationsPojavMixin` catches Vec3 normalize/subtract/add/scale errors.
+
+### 46. StressImpact Crash
+**Error:** Stress calculation errors
+
+**Fix:** `StressImpactPojavMixin` catches block entity change errors.
+
+### 47. RotationHandler Crash
+**Error:** Rotation calculation errors in kinetic blocks
+
+**Fix:** `RotationHandlerPojavMixin` catches rotation-related errors.
+
+### 48. PathComputation Crash
+**Error:** Pathfinding errors
+
+**Fix:** `PathComputationPojavMixin` catches path computation errors.
+
+### 49. BlockEntityType Crash
+**Error:** Block entity type errors
+
+**Fix:** `BlockEntityTypePojavMixin` catches block entity type errors.
+
+### 50. Blocks State Crash
+**Error:** Block state errors
+
+**Fix:** `BlocksStatePojavMixin` catches block state check errors.
+
+### 51. ChunkAccess Crash
+**Error:** Chunk access errors
+
+**Fix:** `ChunkAccessPojavMixin` catches chunk getBlockEntity/setBlockState errors.
+
+### 52. LevelChunkSection Crash
+**Error:** Chunk section errors
+
+**Fix:** `LevelChunkSectionPojavMixin` catches chunk section getBlockState/setBlockState errors.
+
 ## All New Files
 
 ```
@@ -275,7 +320,16 @@ src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
 ├── EntityGetterPojavMixin.java           # Entity collision fix
 ├── PathFinderPojavMixin.java             # PathFinder fix
 ├── SectionRenderDispatcherPojavMixin.java # Section compile fix
-└── LevelSpecialRendererPojavMixin.java   # Special renderer fix
+├── LevelSpecialRendererPojavMixin.java   # Special renderer fix
+├── SchematicannonPojavMixin.java         # Schematicannon fix
+├── Vec3OperationsPojavMixin.java         # Vec3 operations fix
+├── StressImpactPojavMixin.java           # Stress calculation fix
+├── RotationHandlerPojavMixin.java        # Rotation calculation fix
+├── PathComputationPojavMixin.java        # Pathfinding fix
+├── BlockEntityTypePojavMixin.java        # Block entity type fix
+├── BlocksStatePojavMixin.java            # Block state fix
+├── ChunkAccessPojavMixin.java            # Chunk access fix
+└── LevelChunkSectionPojavMixin.java      # Chunk section fix
 ```
 
 ## Building
