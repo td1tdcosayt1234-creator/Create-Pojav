@@ -11,18 +11,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Create calls RenderTarget.enableStencil() during Ponder UI init.
  * On mobile GPUs (GL4ES/Krypton/GLES) this fails and crashes the game.
  * This mixin skips stencil buffer operations on incompatible devices.
+ *
+ * Note: enableStencil() and setStencilEnabled() are Forge-added methods
+ * that don't exist in vanilla Minecraft mappings, so we use remap=false.
  */
 @Mixin(value = com.mojang.blaze3d.pipeline.RenderTarget.class, priority = 750)
 public abstract class RenderTargetPojavMixin {
 
-    @Inject(method = "enableStencil", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "enableStencil", at = @At("HEAD"), cancellable = true, remap = false)
     private void create$skipStencilOnMobile(CallbackInfo ci) {
         if (PojavCompat.isIncompatibleDevice()) {
             ci.cancel();
         }
     }
 
-    @Inject(method = "setStencilEnabled", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "setStencilEnabled", at = @At("HEAD"), cancellable = true, remap = false)
     private void create$skipSetStencilOnMobile(boolean enabled, CallbackInfo ci) {
         if (enabled && PojavCompat.isIncompatibleDevice()) {
             ci.cancel();
