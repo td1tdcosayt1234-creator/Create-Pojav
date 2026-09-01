@@ -1,540 +1,64 @@
-# Create Mod - PojavLauncher Compatible
+# Create-Pojav
 
-Minecraft Create mod with **complete PojavLauncher compatibility fixes**.
+A fork of the [Create mod](https://github.com/Creators-of-Create/Create) (1.20.1) with a single targeted fix for **PojavLauncher** / mobile GPU compatibility.
 
-## What This Fork Does
+## The Fix
 
-This is a modified version of the Create mod (1.20.1) that fixes **ALL known crashes** on PojavLauncher and other mobile Minecraft launchers.
+This fork patches `com.mojang.blaze3d.pipeline.RenderTarget.enableStencil()` to skip stencil buffer operations on mobile GPUs (GL4ES, Krypton, Vulkan, etc.) where they cause a `GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT` crash.
 
-## Crashes Fixed
+### What it does
+- Detects mobile GPU environments (GL4ES, VirGL, ANGLE, Zink, Mali, Adreno, PowerVR)
+- Skips `enableStencil()` and `setStencilEnabled()` on those devices
+- Prevents the crash without affecting gameplay
 
-### 1. GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT (STENCIL BUFFER)
-**Error:** `java.lang.RuntimeException: GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT`
+### What it does NOT do
+- Does **not** touch Flywheel, shaders, contraptions, or any game logic
+- Does **not** add unnecessary try-catch wrappers
+- Is **not** a bundle of 69 broken mixins
 
-**Fix:** `RenderTargetPojavMixin` intercepts `enableStencil()` calls and skips them on mobile GPUs.
+## Installation
 
-### 2. Flywheel Compute Shader Crash
-**Error:** Various OpenGL compute shader errors
+### Option A: This Fork (build from source)
+1. Clone this repo
+2. Run `./gradlew build`
+3. Place the jar from `build/libs/` into `.minecraft/mods/`
 
-**Fix:** `FlywheelBackendMixin` disables Flywheel's instanced rendering on mobile. Create falls back to vanilla entity/block rendering.
+### Option B: Standalone Fix Mod (Recommended)
+Use [create-gl4es-stencil-fix](https://github.com/Sunshine1368/create-gl4es-stencil-fix) - a tiny standalone Forge mod that does the same thing:
+1. Download from [Releases](https://github.com/Sunshine1368/create-gl4es-stencil-fix/releases)
+2. Place in `.minecraft/mods/` alongside Create
+3. Launch - done
 
-### 3. Shader Compilation Failures
-**Error:** Shader compilation errors on mobile GPUs
+## Additional Tips
 
-**Fix:** `ShaderInstancePojavMixin` catches shader failures gracefully.
+- Run `/flywheel backend off` in-game to disable Flywheel's instanced rendering (not needed for the crash fix, but improves performance on mobile)
+- This is a **client-side only** fix - no server-side changes needed
 
-### 4. Contraption Rendering Crash
-**Error:** Crashes when rendering complex contraptions
+## Compatibility
 
-**Fix:** `ContraptionRendererPojavMixin` wraps render calls in try-catch.
+| Component | Status |
+|-----------|--------|
+| Minecraft | 1.20.1 |
+| Forge | 47.x |
+| Create | All 1.20.1 versions |
+| PojavLauncher | Supported |
+| ZalithLauncher | Supported |
+| FCL | Supported |
+| Any ARM Android | Supported |
 
-### 5. Ponder Scene Crash
-**Error:** Crashes when opening Ponder tutorials
+## Technical Details
 
-**Fix:** `PonderUIPojavMixin` simplifies Ponder rendering on mobile.
+The crash occurs when Create's `UIRenderHelper$CustomRenderTarget.create()` calls `ForgeClientHooksHelper.enableStencilBuffer()` which calls `RenderTarget.enableStencil()`. On mobile OpenGL wrappers, the FBO validation step fails with `GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT` or `GL_FRAMEBUFFER_UNSUPPORTED`.
 
-### 6. SuperByteBuffer Crash
-**Error:** Buffer rendering failures
+The fix is a Mixin that injects at `HEAD` of `enableStencil()` and cancels it on detected mobile devices.
 
-**Fix:** `SuperByteBufferPojavMixin` handles buffer errors gracefully.
-
-### 7. Post-Processing Crash
-**Error:** PostChain shader effect failures
-
-**Fix:** `PostChainCompatMixin` skips incompatible post-processing.
-
-### 8. Train Infinite Position (NaN) Crash
-**Error:** Train crashes with NaN coordinates
-
-**Fix:** `EntityPojavMixin` catches and fixes NaN/Infinity positions.
-
-### 9. Contraption Assembly Crash
-**Error:** Light engine crashes during contraption assembly
-
-**Fix:** `LightEnginePojavMixin` handles light engine errors.
-
-### 10. NBT Data Crash
-**Error:** Invalid NBT data with NaN values
-
-**Fix:** `NbtCompoundPojavMixin` fixes NaN/Infinity values in saved data.
-
-### 11. Blend State Crash
-**Error:** GL blend operations failing on mobile
-
-**Fix:** `GlBlendStatePojavMixin` simplifies blend modes.
-
-### 12. Depth Buffer Crash
-**Error:** Depth buffer issues on mobile GPUs
-
-**Fix:** `GlDepthStatePojavMixin` simplifies depth operations.
-
-### 13. Texture Loading Crash
-**Error:** Texture binding failures
-
-**Fix:** `TextureManagerPojavMixin` catches texture errors.
-
-### 14. Level Rendering Crash
-**Error:** World rendering failures
-
-**Fix:** `LevelRendererPojavMixin` handles rendering errors.
-
-### 15. Block Entity Rendering Crash
-**Error:** Block entity render failures
-
-**Fix:** `BlockEntityRendererPojavMixin` catches render errors.
-
-### 16. Entity Rendering Crash
-**Error:** Entity render failures
-
-**Fix:** `EntityRendererPojavMixin` catches render errors.
-
-### 17. Game Renderer Crash
-**Error:** Memory pressure and rendering pipeline errors
-
-**Fix:** `GameRendererPojavMixin` monitors memory and triggers GC.
-
-### 18. ConcurrentModificationException
-**Error:** Thread safety issues in NBT lists
-
-**Fix:** `ListTagPojavMixin` catches concurrent modification errors.
-
-### 19. Minecraft Startup Crash
-**Error:** Startup crashes and memory issues
-
-**Fix:** `MinecraftPojavMixin` monitors startup and memory.
-
-### 20. Render Buffer OOM
-**Error:** Out of memory during buffer allocation
-
-**Fix:** `RenderBuffersPojavMixin` checks memory before allocation.
-
-### 21. World Save/Load Crash
-**Error:** World storage errors
-
-**Fix:** `LevelStoragePojavMixin` handles storage errors.
-
-### 22. Contraption Data Corruption
-**Error:** Stack overflow in NBT size calculation
-
-**Fix:** `CompoundTagSizePojavMixin` catches overflow errors.
-
-### 23. Entity Spawning Crash
-**Error:** Entity spawn failures
-
-**Fix:** `EntityTypePojavMixin` catches spawn errors.
-
-### 24. Block Registration Crash
-**Error:** Block initialization failures
-
-**Fix:** `BlocksPojavMixin` catches init errors.
-
-### 25. Client Level Crash
-**Error:** World loading/rendering errors
-
-**Fix:** `ClientLevelPojavMixin` catches level errors.
-
-### 26. GL Error Crash
-**Error:** GL_OUT_OF_MEMORY, GL_INVALID_OPERATION errors
-
-**Fix:** `GlErrorPojavMixin` monitors GL errors and handles OOM.
-
-### 27. RenderType Setup Crash
-**Error:** RenderType creation failures
-
-**Fix:** `RenderTypeSetupPojavMixin` catches render type errors.
-
-### 28. MultiBufferSource Crash
-**Error:** Buffer source errors during rendering
-
-**Fix:** `MultiBufferSourcePojavMixin` catches buffer source errors.
-
-### 29. BufferBuilder Crash
-**Error:** Buffer builder end/discard errors
-
-**Fix:** `BufferBuilderPojavMixin` catches buffer builder errors.
-
-### 30. EntityRenderDispatcher Crash
-**Error:** Entity render dispatch failures
-
-**Fix:** `EntityRenderDispatcherPojavMixin` catches dispatch errors.
-
-### 31. LevelChunkRenderer Crash
-**Error:** Chunk rendering failures
-
-**Fix:** `LevelChunkRendererPojavMixin` catches chunk render errors.
-
-### 32. Entity Removal Crash
-**Error:** Contraption entity removal errors
-
-**Fix:** `EntityRemovalPojavMixin` catches entity removal errors.
-
-### 33. BlockEntityRenderDispatcher Crash
-**Error:** Block entity render dispatch failures
-
-**Fix:** `BlockEntityRenderDispatcherPojavMixin` catches dispatch errors.
-
-### 34. SpriteContents Crash
-**Error:** Sprite/texture upload errors
-
-**Fix:** `SpriteContentsPojavMixin` catches sprite upload errors.
-
-### 35. VirtualRenderWorld Crash
-**Error:** `UnsupportedOperationException: VirtualRenderWorld doesn't maintain a chunk array`
-
-**Fix:** `VirtualRenderWorldPojavMixin` cancels blockEntityChanged in VirtualRenderWorld.
-
-### 36. Vec3/Vector3d Crash
-**Error:** NullPointerException when mf.axis is null during collision checks
-
-**Fix:** `Vec3PojavMixin` handles NaN/Infinity in vector operations.
-
-### 37. BlockEntity Tick Crash
-**Error:** Block entity tick/load/save errors
-
-**Fix:** `BlockEntityPojavMixin` catches block entity errors.
-
-### 38. LevelChunk Crash
-**Error:** Chunk loading errors
-
-**Fix:** `LevelChunkPojavMixin` catches chunk getBlockEntity/setBlockState errors.
-
-### 39. BlockState Crash
-**Error:** Block state shape/collision errors
-
-**Fix:** `BlockStatePojavMixin` catches getShape/getCollisionShape errors.
-
-### 40. EntityGetter Crash
-**Error:** Entity collision errors
-
-**Fix:** `EntityGetterPojavMixin` catches getEntities/getCollidingEntities errors.
-
-### 41. PathFinder Crash
-**Error:** Pathfinding errors
-
-**Fix:** `PathFinderPojavMixin` catches findPath errors.
-
-### 42. SectionRenderDispatcher Crash
-**Error:** Section compile errors
-
-**Fix:** `SectionRenderDispatcherPojavMixin` catches section compile errors.
-
-### 43. LevelSpecialRenderer Crash
-**Error:** Special rendering errors
-
-**Fix:** `LevelSpecialRendererPojavMixin` catches special render errors.
-
-### 44. Schematicannon Crash
-**Error:** `IllegalArgumentException: No enum constant` when schematicannon contains itself
-
-**Fix:** `SchematicannonPojavMixin` fixes invalid NBT state data.
-
-### 45. Vec3 Operations Crash
-**Error:** NaN/Infinity in Vec3 calculations
-
-**Fix:** `Vec3OperationsPojavMixin` catches Vec3 normalize/subtract/add/scale errors.
-
-### 46. StressImpact Crash
-**Error:** Stress calculation errors
-
-**Fix:** `StressImpactPojavMixin` catches block entity change errors.
-
-### 47. RotationHandler Crash
-**Error:** Rotation calculation errors in kinetic blocks
-
-**Fix:** `RotationHandlerPojavMixin` catches rotation-related errors.
-
-### 48. PathComputation Crash
-**Error:** Pathfinding errors
-
-**Fix:** `PathComputationPojavMixin` catches path computation errors.
-
-### 49. BlockEntityType Crash
-**Error:** Block entity type errors
-
-**Fix:** `BlockEntityTypePojavMixin` catches block entity type errors.
-
-### 50. Blocks State Crash
-**Error:** Block state errors
-
-**Fix:** `BlocksStatePojavMixin` catches block state check errors.
-
-### 51. ChunkAccess Crash
-**Error:** Chunk access errors
-
-**Fix:** `ChunkAccessPojavMixin` catches chunk getBlockEntity/setBlockState errors.
-
-### 52. LevelChunkSection Crash
-**Error:** Chunk section errors
-
-**Fix:** `LevelChunkSectionPojavMixin` catches chunk section getBlockState/setBlockState errors.
-
-### 53. FluidHandler Crash
-**Error:** Fluid tank/pipe/pump errors
-
-**Fix:** `FluidHandlerPojavMixin` catches fluid handler errors.
-
-### 54. KineticBlockEntity Crash
-**Error:** Kinetic block entity errors (gearbox, clutch, shaft)
-
-**Fix:** `KineticBlockEntityPojavMixin` catches kinetic block entity errors.
-
-### 55. Deployer Crash
-**Error:** Deployer/arm interaction errors
-
-**Fix:** `DeployerPojavMixin` catches deployer errors.
-
-### 56. Crusher Crash
-**Error:** Crushing wheel/millstone/press errors
-
-**Fix:** `CrusherPojavMixin` catches crusher errors.
-
-### 57. Bearing Crash
-**Error:** Mechanical bearing/harvester errors
-
-**Fix:** `BearingPojavMixin` catches bearing errors.
-
-### 58. Contraption Crash
-**Error:** Contraption assembly/disassembly errors
-
-**Fix:** `ContraptionPojavMixin` catches contraption errors.
-
-### 59. Belt Crash
-**Error:** Mechanical belt errors
-
-**Fix:** `BeltPojavMixin` catches belt errors.
-
-### 60. Redstone Crash
-**Error:** Redstone signal processing errors
-
-**Fix:** `RedstonePojavMixin` catches redstone errors.
-
-### 61. Creative Crash
-**Error:** Creative motor/virtual motor errors
-
-**Fix:** `CreativePojavMixin` catches creative errors.
-
-### 62. Gearbox Crash
-**Error:** Gearbox/clutch/gearshift errors
-
-**Fix:** `GearboxPojavMixin` catches gearbox errors.
-
-### 63. EncasedShaft Crash
-**Error:** Encased shaft errors
-
-**Fix:** `EncasedShaftPojavMixin` catches encased shaft errors.
-
-### 64. FluidTank Crash
-**Error:** Fluid tank errors
-
-**Fix:** `FluidTankPojavMixin` catches fluid tank errors.
-
-### 65. Pipe Crash
-**Error:** Fluid pipe errors
-
-**Fix:** `PipePojavMixin` catches pipe errors.
-
-### 66. Pump Crash
-**Error:** Mechanical pump errors
-
-**Fix:** `PumpPojavMixin` catches pump errors.
-
-### 67. Mixer Crash
-**Error:** Mechanical mixer errors
-
-**Fix:** `MixerPojavMixin` catches mixer errors.
-
-### 68. Saw Crash
-**Error:** Mechanical saw errors
-
-**Fix:** `SawPojavMixin` catches saw errors.
-
-### 69. Drill Crash
-**Error:** Mechanical drill errors
-
-**Fix:** `DrillPojavMixin` catches drill errors.
-
-## All New Files
+## Files Changed
 
 ```
 src/main/java/com/simibubi/create/foundation/mixin/client/pojav/
-├── PojavCompat.java                      # Device detection
-├── PojavCompatManager.java               # Configuration manager
-├── PojavCompatConfig.java                # Config options
-├── RenderTargetPojavMixin.java           # Stencil buffer fix
-├── GlStateManagerPojavMixin.java         # GL state fix
-├── FlywheelBackendMixin.java             # Flywheel disable
-├── ShaderInstancePojavMixin.java         # Shader fallback
-├── ContraptionRendererPojavMixin.java    # Contraption fix
-├── VanillaVisualsPojavMixin.java         # Visualization fix
-├── PonderUIPojavMixin.java               # Ponder fix
-├── SuperByteBufferPojavMixin.java        # Buffer fix
-├── RenderTypePojavMixin.java             # RenderType fallback
-├── PostChainCompatMixin.java             # Post-processing fix
-├── EntityPojavMixin.java                 # Entity position fix
-├── LightEnginePojavMixin.java            # Light engine fix
-├── NbtCompoundPojavMixin.java            # NBT data fix
-├── GlBlendStatePojavMixin.java           # Blend state fix
-├── GlDepthStatePojavMixin.java           # Depth buffer fix
-├── TextureManagerPojavMixin.java         # Texture loading fix
-├── LevelRendererPojavMixin.java          # Level rendering fix
-├── BlockEntityRendererPojavMixin.java    # Block entity fix
-├── EntityRendererPojavMixin.java         # Entity rendering fix
-├── GameRendererPojavMixin.java           # Game renderer fix
-├── ListTagPojavMixin.java                # ConcurrentModification fix
-├── MinecraftPojavMixin.java              # Minecraft startup fix
-├── RenderBuffersPojavMixin.java          # Buffer OOM fix
-├── LevelStoragePojavMixin.java           # World save/load fix
-├── CompoundTagSizePojavMixin.java        # NBT overflow fix
-├── EntityTypePojavMixin.java             # Entity spawn fix
-├── BlocksPojavMixin.java                 # Block registration fix
-├── ClientLevelPojavMixin.java            # Client level fix
-├── GlErrorPojavMixin.java                # GL error monitoring
-├── RenderTypeSetupPojavMixin.java        # RenderType creation fix
-├── MultiBufferSourcePojavMixin.java      # Buffer source fix
-├── BufferBuilderPojavMixin.java          # Buffer builder fix
-├── EntityRenderDispatcherPojavMixin.java # Entity dispatch fix
-├── LevelChunkRendererPojavMixin.java     # Chunk render fix
-├── EntityRemovalPojavMixin.java          # Entity removal fix
-├── BlockEntityRenderDispatcherPojavMixin.java # Block dispatch fix
-├── SpriteContentsPojavMixin.java         # Sprite upload fix
-├── VirtualRenderWorldPojavMixin.java     # VirtualRenderWorld fix
-├── Vec3PojavMixin.java                   # Vec3 collision fix
-├── BlockEntityPojavMixin.java            # BlockEntity tick fix
-├── LevelChunkPojavMixin.java             # Chunk loading fix
-├── BlockStatePojavMixin.java             # BlockState shape fix
-├── EntityGetterPojavMixin.java           # Entity collision fix
-├── PathFinderPojavMixin.java             # PathFinder fix
-├── SectionRenderDispatcherPojavMixin.java # Section compile fix
-├── LevelSpecialRendererPojavMixin.java   # Special renderer fix
-├── SchematicannonPojavMixin.java         # Schematicannon fix
-├── Vec3OperationsPojavMixin.java         # Vec3 operations fix
-├── StressImpactPojavMixin.java           # Stress calculation fix
-├── RotationHandlerPojavMixin.java        # Rotation calculation fix
-├── PathComputationPojavMixin.java        # Pathfinding fix
-├── BlockEntityTypePojavMixin.java        # Block entity type fix
-├── BlocksStatePojavMixin.java            # Block state fix
-├── ChunkAccessPojavMixin.java            # Chunk access fix
-├── LevelChunkSectionPojavMixin.java      # Chunk section fix
-├── FluidHandlerPojavMixin.java           # Fluid handler fix
-├── KineticBlockEntityPojavMixin.java     # Kinetic block entity fix
-├── DeployerPojavMixin.java               # Deployer fix
-├── CrusherPojavMixin.java                # Crusher fix
-├── BearingPojavMixin.java                # Bearing fix
-├── ContraptionPojavMixin.java            # Contraption fix
-├── BeltPojavMixin.java                   # Belt fix
-├── RedstonePojavMixin.java               # Redstone fix
-├── CreativePojavMixin.java               # Creative motor fix
-├── GearboxPojavMixin.java                # Gearbox fix
-├── EncasedShaftPojavMixin.java           # Encased shaft fix
-├── FluidTankPojavMixin.java              # Fluid tank fix
-├── PipePojavMixin.java                   # Pipe fix
-├── PumpPojavMixin.java                   # Pump fix
-├── MixerPojavMixin.java                  # Mixer fix
-├── SawPojavMixin.java                    # Saw fix
-└── DrillPojavMixin.java                  # Drill fix
+├── PojavCompat.java           # Device detection (GL4ES, VirGL, Mali, etc.)
+├── PojavCompatManager.java    # Config management
+└── RenderTargetPojavMixin.java # The actual fix: skips enableStencil() on mobile
+
+src/main/resources/create.mixins.json  # Added RenderTargetPojavMixin to client list
 ```
-
-## Building
-
-```bash
-git clone https://github.com/td1tdcosayt1234-creator/Create-Pojav.git
-cd Create-Pojav
-./gradlew build
-```
-
-Output JAR: `build/libs/create-1.20.1-*.jar`
-
-## Installation on PojavLauncher
-
-1. Build the mod or download the pre-built JAR
-2. Copy the JAR to PojavLauncher's mods folder:
-   - **Android:** `/storage/emulated/0/games/PojavLauncher/.minecraft/mods/`
-3. Install **Forge 1.20.1** in PojavLauncher
-4. Launch the game
-
-## Recommended PojavLauncher Settings
-
-| Setting | Value |
-|---------|-------|
-| **Renderer** | Holy GL4ES |
-| **Memory** | 2048-3072MB |
-| **Java** | Java 17 |
-| **Render Distance** | 4-6 chunks |
-| **Graphics** | Fast |
-| **Particles** | Minimal |
-
-## In-Game Commands
-
-After launching, run these commands in chat:
-```
-/flywheel backend off
-```
-This disables Flywheel's advanced rendering on mobile.
-
-## Configuration System
-
-System properties can be set in PojavLauncher's JVM arguments:
-```
--Dcreate.pojavcompat=true
--Dcreate.disableflywheel=true
--Dcreate.disablestencil=true
--Dcreate.disableshaders=true
--Dcreate.disableponder=true
--Dcreate.disablecontraption=true
-```
-
-## What Works on Mobile
-
-| Feature | Status |
-|---------|--------|
-| Basic blocks | ✅ Works |
-| Mechanical components | ✅ Works |
-| Gears | ✅ Works |
-| Belts | ✅ Works |
-| Contraptions | ⚠️ Simplified |
-| Ponder tutorials | ⚠️ Simplified |
-| Fluids | ✅ Works |
-| Trains | ⚠️ May lag |
-
-## GPU Compatibility
-
-| GPU Type | Support Level |
-|----------|---------------|
-| **Adreno (Snapdragon)** | Best - Full support |
-| **Mali (MediaTek/Exynos)** | Limited - May have issues |
-| **PowerVR** | Limited |
-| **Vulkan (Zink)** | Not recommended |
-
-## Limitations
-
-- Some visual effects are reduced on mobile
-- Flywheel instanced rendering is disabled (vanilla fallback)
-- Ponder scenes use simplified rendering
-- Performance depends on device hardware
-- Mali GPUs may still have some issues
-
-## Troubleshooting
-
-### Game crashes on startup
-- Ensure you're using **Holy GL4ES** renderer
-- Allocate **2048MB** RAM minimum
-- Use **Java 17**
-
-### Poor performance
-- Lower render distance to **4 chunks**
-- Set graphics to **Fast**
-- Close background apps
-
-### Black screen
-- Switch renderer to **ANGLE** then back to **GL4ES**
-- Clear PojavLauncher cache
-
-## Credits
-
-- Original Create mod by **simibubi**
-- PojavLauncher team for the mobile launcher
-- Sunshine1368 for create-gl4es-stencil-fix inspiration
-
-## License
-
-Same as original Create mod - MIT License
